@@ -27,5 +27,7 @@ reactionSchema.path("createdAt").get(function (value) {
   return /* your formatting logic */;
 });
 
+const Reaction = model("reaction", reactionSchema);
+
 // Export the Reaction schema
-module.exports = reactionSchema;
+module.exports = Reaction;

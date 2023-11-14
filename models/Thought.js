@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { reactionSchema } = require("./Reaction"); // Import the reactionSchema
 
 // Thought Schema
 const thoughtSchema = new Schema({
@@ -31,7 +32,7 @@ thoughtSchema.path("createdAt").get(function (value) {
 });
 
 // Now you can create a model using the schema
-const Thought = mongoose.model("Thought", thoughtSchema);
+const Thought = model("thought", thoughtSchema);
 
 // Export the Thought model
 module.exports = Thought;
