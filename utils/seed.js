@@ -3,7 +3,7 @@ const { User, Thought, Reaction } = require("../models");
 
 const { userData, thoughtData, reactionData } = require("./data");
 
-const db = require("./config/connection");
+const db = require("../config/connection");
 
 db.once("open", async () => {
   try {
@@ -25,6 +25,8 @@ db.once("open", async () => {
     // (similar to the previous example)
 
     console.log("Seed data inserted successfully!");
+    console.table(users);
+    console.table(thoughts);
     process.exit(0);
   } catch (error) {
     console.error(error);
