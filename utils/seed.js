@@ -1,35 +1,35 @@
-// const connection = require("../config/connection");
+const connection = require("../config/connection");
 const { User, Thought, Reaction } = require("../models");
+const { generateUser, generateThoughts } = require("./data");
 
-const { userData, thoughtData, reactionData } = require("./data");
+connection.on("error", (err) => err);
 
-const db = require("../config/connection");
-
-db.once("open", async () => {
-  try {
-    // Clear existing data
-    await User.deleteMany({});
-    await Thought.deleteMany({});
-    await Reaction.deleteMany({});
-
-    // Create users
-    const users = await User.create(userData);
-
-    // Create thoughts
-    const thoughts = await Thought.create(thoughtData);
-
-    // Create reactions
-    const reactions = await Reaction.create(reactionData);
-
-    // Assign thoughts and reactions to users
-    // (similar to the previous example)
-
-    console.log("Seed data inserted successfully!");
-    console.table(users);
-    console.table(thoughts);
-    process.exit(0);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+connection.once("open", async () => {
+  console.log("connected");
+  // Delete the collections if they exist
+  let thoughtCheck = await connection.db
+    .listCollections({ name: "thoughts" })
+    .toArray();
+  if (thoughtCheck.length) {
+    await connection.dropCollection("thoughts");
   }
+
+  let userCheck = await connection.db
+    .listCollections({ name: "users" })
+    .toArray();
+  if (userCheck.length) {
+    await connection.dropCollection("users");
+  }
+
+  // Generate users and thoughts data
+  const users = generateUser();
+  const thoughts = generateThoughts(20);
+
+  await User.collection.insertMany(users);
+  await Thought.collection.insertMany(thoughts);
+
+  console.table(users);
+  console.table(thoughts);
+  console.info("Seeding complete! 🌱");
+  process.exit(0);
 });
