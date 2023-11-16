@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { reactionSchema } = require("./Reaction"); // Import the reactionSchema
+const reactionSchema = require("./Reaction");
 
 // Thought Schema
 const thoughtSchema = new Schema({
@@ -17,11 +17,7 @@ const thoughtSchema = new Schema({
     type: String,
     required: true,
   },
-  reactions: {
-    type: Array,
-    default: [reactionSchema], // set a default value if reactions can be undefined
-  },
-  // reactions: [reactionSchema], // Array of nested documents (reactions)
+  reactions: [reactionSchema],
 });
 
 // Virtual to get the length of the thought's reactions array
@@ -29,13 +25,7 @@ thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
-// Getter method to format the timestamp on query
-// thoughtSchema.path("createdAt").get(function (value) {
-//   // Format the timestamp as needed
-//   return /* your formatting logic */;
-// });
-
-// Now you can create a model using the schema
+// create model using the schema
 const Thought = model("Thought", thoughtSchema);
 
 // Export the Thought model

@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
-const { Schema, model } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 // Reaction Schema
 const reactionSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
+      default: () => new Types.ObjectId(),
     },
     reactionBody: {
       type: String,
@@ -22,23 +21,13 @@ const reactionSchema = new Schema(
       default: Date.now,
     },
   },
-  // allows for virtuals
   {
     toJSON: {
-      virtuals: true,
       getters: true,
     },
     id: false,
   }
 );
 
-// // Getter method to format the timestamp on query
-// reactionSchema.path("createdAt").get(function (value) {
-//   // Format the timestamp as needed
-//   return /* your formatting logic */;
-// });
-
-const Reaction = model("Reaction", reactionSchema);
-
 // Export the Reaction schema
-module.exports = Reaction;
+module.exports = reactionSchema;

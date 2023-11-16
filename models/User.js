@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 
+// user schema
 const userSchema = new Schema(
   {
     username: {
@@ -17,13 +18,13 @@ const userSchema = new Schema(
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Thought", // Reference to the Thought model
+        ref: "Thought",
       },
     ],
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User", // Reference to the User model (self-reference)
+        ref: "User",
       },
     ],
   },
